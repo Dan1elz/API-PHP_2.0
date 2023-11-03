@@ -142,10 +142,10 @@ class UserControler
         return $this->error('destruction failed',401);
     }
     public function updateUser($data)
-    public function success($message, $data)
     {
-        
+
     }
+    public function success($message, $data)
     {
         /*===== MENSAGEM DE RETORNO DE SUCESSO COM A MENSAGEM E OS DADOS =====*/
         return json_encode([
