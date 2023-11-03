@@ -141,8 +141,13 @@ class UserControler
            /*===== cASO O TOKEN SEJA INVALIDO OU OCORRA ALGUM ERRO NO PROCESSO =====*/
         return $this->error('destruction failed',401);
     }
+    public function updateUser($data)
     public function success($message, $data)
-    { /*===== MENSAGEM DE RETORNO DE SUCESSO COM A MENSAGEM E OS DADOS =====*/
+    {
+        
+    }
+    {
+        /*===== MENSAGEM DE RETORNO DE SUCESSO COM A MENSAGEM E OS DADOS =====*/
         return json_encode([
             'error' => false,
             'message' => $message,
@@ -150,7 +155,8 @@ class UserControler
         ]);
     }
     public function error($message, $statusCode)
-    { /*===== MENSAGEM DE RETORNO DE ERRO COM A MENSAGEM DE ERRO =====*/
+    { 
+        /*===== MENSAGEM DE RETORNO DE ERRO COM A MENSAGEM DE ERRO =====*/
         return json_encode([
             'error' => true,
             'message' => $message,
