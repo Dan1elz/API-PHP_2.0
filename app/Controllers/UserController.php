@@ -7,7 +7,7 @@ use App\Models\{
 use PDO;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
-class UserControler
+class UserController
 {
     private $userModel;
     private $tokenModel;
@@ -20,7 +20,7 @@ class UserControler
     public function registerUser($data)
     {
         /*===== VERIFICA SE OS CAMPOS OBRIGATÓRIOS ESTÃO PRESENTES =====*/
-        $requiredFields = ['nomeUsuario','sobrenomeUsuario','emailUsuario','senhaUsuario'];
+        $requiredFields = ['nameUser','lastnameUser','emailUser','passwordUser'];
 
         foreach ($requiredFields as $field)
         {
@@ -29,10 +29,10 @@ class UserControler
                 return $this->error('Insufficient values',401);
             }
         }
-        $name = $data['nomeUsuario'] ?: false;
-        $lastname = $data['sobrenomeUsuario'] ?: false;
-        $email = $data['emailUsuario'] ?: false;
-        $password = $data['senhaUsuario'] ?: false;
+        $name = $data['nameUser'];
+        $lastname = $data['lastnameUser'];
+        $email = $data['emailUser'];
+        $password = $data['passwordUser'];
         
         /*===== VERIFICA SE JÁ EXISTE ALGUM USUARIO COM TAL EMAIL =====*/
         $verifyEmail = $this->userModel->verifyEmail($email);
@@ -51,7 +51,7 @@ class UserControler
     public function loginUser($data)
     {
         /*===== VERIFICA SE OS CAMPOS OBRIGATÓRIOS ESTÃO PRESENTES =====*/
-        $requiredFields = ['emailUsuario','senhaUsuario'];
+        $requiredFields = ['emailUser','passwordUser'];
 
         foreach ($requiredFields as $field)
         {
@@ -60,8 +60,8 @@ class UserControler
                 return $this->error('Insufficient values',401);
             }
         }
-        $email = $data['emailUsuario'];
-        $password = $data['senhaUsuario'];
+        $email = $data['emailUser'];
+        $password = $data['passwordUser'];
         /*===== VERIFICA SE O USUARIO EXISTE NO BANCO DE DADOS =====*/
         $response = $this->userModel->loginUser($email, $password);
 
@@ -79,12 +79,12 @@ class UserControler
             }
             /*===== GERA UM NOVO TOKEN E RETORNA AO USUARIO =====*/
             $payload = array(
-                'user' => $user['id_usuario'],
+                'user' => $user['id_user'],
                 'exp' => time() + 86400,
                 'iat' => time()
             );
             $token = JWT::encode($payload, $_ENV['KEY'], 'HS256');
-            $registerToken = $this->tokenModel->createToken($token, $user['id_usuario'], time());
+            $registerToken = $this->tokenModel->createToken($token, $user['id_user'], time());
             if ($registerToken == true)
             {
                 return $this->success('User successfully logged in', $token);
@@ -112,11 +112,11 @@ class UserControler
             /*===== BUSCA OS DADOS DO USUÁRIO ASSOCIADOS AO TOKEN =====*/
             $userData = $this->userModel->getData($userId);
             if ($userData) {
-                return $this->success('User successfully logged in', $userData);
+                return $this->success('Data returned successfully', $userData);
             }
         }
          /*===== cASO O TOKEN SEJA INVALIDO OU OCORRA ALGUM ERRO NO PROCESSO =====*/
-        return $this->error('Login failed',401);
+        return $this->error('Data return failed',401);
     }
     public function destroyUser($data)
     {
@@ -141,9 +141,56 @@ class UserControler
            /*===== cASO O TOKEN SEJA INVALIDO OU OCORRA ALGUM ERRO NO PROCESSO =====*/
         return $this->error('destruction failed',401);
     }
-    public function updateUser($data)
+    public function updateUser($token, $data)
     {
+         /*===== VERIFICA SE OS CAMPOS OBRIGATÓRIOS ESTÃO PRESENTES =====*/
+        $requiredFields = ['nameUser','lastnameUser','passwordUser'];
 
+        foreach ($requiredFields as $field)
+        {
+            if (!isset($data[$field]) || empty($data[$field]))
+            {
+                return $this->error('Insufficient values',401);
+            }
+        }
+        $name = $data['nameUser'];
+        $lastname = $data['lastnameUser'];
+        $password = $data['passwordUser'];
+
+          /*===== VERIFICA SE O TOKEN É VALIDO =====*/
+        $verifyToken = $this->tokenModel->verifyToken($token);
+        if ($verifyToken->rowCount() == 1)
+        {
+            $tokenData = $verifyToken->fetch(PDO::FETCH_ASSOC);
+            $userId = $tokenData['id'];
+            /*===== ATUALIZA SE AS SENHAS SÃO IGUAIS =====*/
+            $response = $this->userModel->getData($userId);
+            $getData = $response->fetch(PDO::FETCH_ASSOC);
+            $storedPassword = $getData['senha_usuario'];
+            if (password_verify($password, $storedPassword))
+            {
+                /*===== ATUALIZA OS DADOS DO USUARIO =====*/
+                $userUpdated  = $this->userModel->updateUser($userId, $name, $lastname);
+                /*===== CASO ATUALIZAR, GERAR UM NOVO TOKEN =====*/
+                if ($userUpdated  == true)
+                {
+                $payload = array(
+                    'user' => $userId['id_user'],
+                    'exp' => time() + 86400,
+                    'iat' => time()
+                );
+                $token = JWT::encode($payload, $_ENV['KEY'], 'HS256');
+                $registerToken = $this->tokenModel->createToken($token, $userId['id_user'], time());
+                if ($registerToken == true)
+                {
+                    return $this->success('User successfully logged in', $token);
+                }   
+                }
+            }
+            return $this->error('Passwords are different',401);
+        }
+        /*===== cASO O TOKEN SEJA INVALIDO OU OCORRA ALGUM ERRO NO PROCESSO =====*/
+        return $this->error('Data return failed',401);
     }
     public function success($message, $data)
     {

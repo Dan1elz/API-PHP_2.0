@@ -12,7 +12,7 @@ class UserModel
     }
     public function registerUser($name, $lastname, $email, $password)
     {
-        $sql = "INSERT INTO tb_usuario( nome_usuario, sobrenome_usuario, email_usuario, senha_usuario) 
+        $sql = "INSERT INTO bd_api_teste_2.tb_user( name_user, lastname_user, email_user, password_user) 
        VALUES (?, ?, ?, ?);";
        $stmt = $this->pdo->prepare($sql);
        $stmt->bindParam(1, $name, PDO::PARAM_STR);
@@ -24,7 +24,7 @@ class UserModel
     }
     public function verifyEmail($email)
     {
-        $sql = "SELECT * FROM bd_api_teste.tb_usuario WHERE email_usuario = ?";
+        $sql = "SELECT * FROM bd_api_teste_2.tb_user WHERE email_user = ?";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(1, $email, PDO::PARAM_STR);
         $stmt->execute();
@@ -33,7 +33,7 @@ class UserModel
     }
     public function loginUser($email, $password)
     {
-        $sql = "SELECT * FROM bd_api_teste.tb_usuario WHERE email_usuario = ? AND senha_usuario = ?";
+        $sql = "SELECT * FROM bd_api_teste_2.tb_user WHERE email_user = ? AND password_user = ?";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(1, $email, PDO::PARAM_STR);
         $stmt->bindParam(2, $password, PDO::PARAM_STR);
@@ -43,31 +43,29 @@ class UserModel
     }
     public function getData($id)
     {
-        $sql = "SELECT * FROM bd_api_teste.tb_usuario WHERE id_usuario = ?";
+        $sql = "SELECT * FROM bd_api_teste_2.tb_user WHERE id_user = ?";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
         $stmt->execute();
 
         return $stmt->fetch(PDO::FETCH_ASSOC) ?: false;
     }
-    public function updateUser($id, $name, $lastname, $password)
+    public function updateUser($id, $name, $lastname)
     {
-        $sql = "UPDATE bd_api_teste.tb_usuario SET
-            nome_usuario = :name,
-            sobrenome_usuario = :lastname,
-            senha_usuario = :password
-            WHERE id_usuario = :id";
+        $sql = "UPDATE bd_api_teste_2.tb_user SET
+            name_user = :name,
+            lastname_user = :lastname,
+            WHERE id_user = :id";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(':name', $name, PDO::PARAM_STR);
         $stmt->bindParam(':lastname', $lastname, PDO::PARAM_STR);
-        $stmt->bindParam(':password', $password, PDO::PARAM_STR);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
         return $stmt->execute() ? true : false;    
     }
     public function destroyUser($id)
     {
-        $sql = "DELETE FROM bd_api_teste.tb_usuario WHERE id_usuario = :id";
+        $sql = "DELETE FROM bd_api_teste_2.tb_user WHERE id_user = :id";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 

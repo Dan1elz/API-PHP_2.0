@@ -12,7 +12,7 @@ class TokenModel
     }
     public function createToken($userId, $token, $expirationTime)
     {
-        $sql = "INSERT INTO tokens(user_id, token, expiration_time) VALUES (:userId, :token, :expirationTime)";
+        $sql = "INSERT INTO bd_api_teste_2.tokens(user_id, token, expiration_time) VALUES (:userId, :token, :expirationTime)";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(":userId", $userId, PDO::PARAM_INT);
         $stmt->bindParam(":token", $token, PDO::PARAM_STR);
@@ -22,7 +22,7 @@ class TokenModel
     }
     public function veriftUser($userId)
     {
-        $sql = "SELECT * FROM bd_api_teste.tokens WHERE user_id = :userId"; 
+        $sql = "SELECT * FROM bd_api_teste_2.tokens WHERE user_id = :userId"; 
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(":userId", $userId, PDO::PARAM_INT);
         $stmt->execute();
@@ -31,7 +31,7 @@ class TokenModel
     }
     public function verifyToken($token)
     {
-        $sql = "SELECT * FROM tokens WHERE token = :token";
+        $sql = "SELECT * FROM bd_api_teste_2.tokens WHERE token = :token";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(":token", $token, PDO::PARAM_STR);
         $stmt->execute();
@@ -40,7 +40,7 @@ class TokenModel
     }
     public function deleteToken($token)
     {
-        $sql = "DELETE FROM tokens WHERE token = :token";
+        $sql = "DELETE FROM bd_api_teste_2.tokens WHERE token = :token";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(":token", $token, PDO::PARAM_STR);
         $stmt->execute();

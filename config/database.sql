@@ -1,13 +1,13 @@
-CREATE DATABASE bd_api_teste;
+CREATE DATABASE bd_api_teste_2;
 
-USE bd_api_teste;
+USE bd_api_teste_2;
 
-CREATE TABLE tb_usuario(
-	id_usuario INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    nome_usuario VARCHAR(20) NOT NULL,
-    sobrenome_usuario VARCHAR(20) NOT NULL,
-    email_usuario VARCHAR(100) NOT NULL,
-	senha_usuario VARCHAR(32) NOT NULL
+CREATE TABLE tb_user(
+	id_user INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    name_user VARCHAR(20) NOT NULL,
+    lastname_user VARCHAR(20) NOT NULL,
+    email_user VARCHAR(100) NOT NULL,
+	password_user VARCHAR(32) NOT NULL
 );
 
 CREATE TABLE tokens (
