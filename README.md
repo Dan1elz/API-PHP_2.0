@@ -112,7 +112,7 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
         ]
          ```
 - **Para Entrar**
-    Lembrando que é necessario salvar o token do login na parte do usuario, para poder reutilizalo quando necessario.
+    - Lembrando que é necessario salvar o token do login na parte do usuario, para poder reutilizalo quando necessario.
     - *Método*: GET
     - *Rota*: /getuser
     - *Parâmetros da Solicitação*: ['Token']
