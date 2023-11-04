@@ -101,49 +101,49 @@ class UserController
         /*===== CASO O USUARIO NÃO EXISTA OU OCORRA UM ERRO NO PROCESSO =====*/
         return $this->error('Login failed', 401);
     }
-    public function getData($data)
+    public function getData($token)
     {
          /*===== VERIFICA SE OS CAMPOS OBRIGATÓRIOS ESTÃO PRESENTES =====*/
 
-        if (!isset($data['token']) || empty($data['token']))
+        if (!isset($token) || empty($token))
         {
             return $this->error('Insufficient values',401);
         }
         /*===== VERIFICA SE O TOKEN É VALIDO =====*/
-        $token = $data['token'];
         $verifyToken = $this->tokenModel->verifyToken($token);
+        
         if ($verifyToken->rowCount() == 1)
         {
             $tokenData = $verifyToken->fetch(PDO::FETCH_ASSOC);
-            $userId = $tokenData['id'];
-
+            $userId = $tokenData['user_id'];
+            
             /*===== BUSCA OS DADOS DO USUÁRIO ASSOCIADOS AO TOKEN =====*/
             $userData = $this->userModel->getData($userId);
             if ($userData) {
                 return $this->success('Data returned successfully', $userData);
             }
         }
-         /*===== cASO O TOKEN SEJA INVALIDO OU OCORRA ALGUM ERRO NO PROCESSO =====*/
+         /*===== CASO O TOKEN SEJA INVALIDO OU OCORRA ALGUM ERRO NO PROCESSO =====*/
         return $this->error('Data return failed',401);
     }
-    public function destroyUser($data)
+    public function destroyUser($token)
     {
         /*===== VERIFICA SE OS CAMPOS OBRIGATÓRIOS ESTÃO PRESENTES =====*/
-        if (!isset($data['token']) || empty($data['token']))
+        if (!isset($token) || empty($token))
         {
             return $this->error('Insufficient values',401);
         }
         /*===== VERIFICA SE O TOKEN É VALIDO =====*/
-        $token = $data['token'];
         $verifyToken = $this->tokenModel->verifyToken($token);
         if ($verifyToken->rowCount() == 1)
         {
             $tokenData = $verifyToken->fetch(PDO::FETCH_ASSOC);
-            $userId = $tokenData['id'];
+            $userId = $tokenData['user_id'];
             /*===== BUSCA OS DADOS DO USUÁRIO ASSOCIADOS AO TOKEN =====*/
-            $userData = $this->userModel->destroyUser($userId);
-            if ($userData == true) {
-                return $this->success('User successfully destroyed', $userData);
+            $destroyUser = $this->userModel->destroyUser($userId);
+            $destroyToken = $this->tokenModel->deleteToken($token);
+            if ($destroyUser == true && $destroyToken == true) {
+                return $this->success('User successfully destroyed', null);
             }
         }
            /*===== cASO O TOKEN SEJA INVALIDO OU OCORRA ALGUM ERRO NO PROCESSO =====*/
@@ -164,35 +164,39 @@ class UserController
         $name = $data['nameUser'];
         $lastname = $data['lastnameUser'];
         $password = $data['passwordUser'];
-
           /*===== VERIFICA SE O TOKEN É VALIDO =====*/
         $verifyToken = $this->tokenModel->verifyToken($token);
         if ($verifyToken->rowCount() == 1)
         {
             $tokenData = $verifyToken->fetch(PDO::FETCH_ASSOC);
-            $userId = $tokenData['id'];
+            $userId = $tokenData['user_id'];
+
             /*===== ATUALIZA SE AS SENHAS SÃO IGUAIS =====*/
-            $response = $this->userModel->getData($userId);
-            $getData = $response->fetch(PDO::FETCH_ASSOC);
-            $storedPassword = $getData['senha_usuario'];
-            if (password_verify($password, $storedPassword))
+            $getData = $this->userModel->getData($userId);
+
+            $storedPassword = $getData['password_user'];
+
+            if ($password === $storedPassword)
             {
                 /*===== ATUALIZA OS DADOS DO USUARIO =====*/
                 $userUpdated  = $this->userModel->updateUser($userId, $name, $lastname);
                 /*===== CASO ATUALIZAR, GERAR UM NOVO TOKEN =====*/
                 if ($userUpdated  == true)
                 {
-                $payload = array(
-                    'user' => $userId['id_user'],
-                    'exp' => time() + 86400,
-                    'iat' => time()
-                );
-                $token = JWT::encode($payload, $_ENV['KEY'], 'HS256');
-                $registerToken = $this->tokenModel->createToken($token, $userId['id_user'], time());
-                if ($registerToken == true)
-                {
-                    return $this->success('User successfully logged in', $token);
-                }   
+                    $payload = [
+                        'user' => $userId,
+                        'exp' => time() + 86400,
+                        'iat' => time()
+                    ];
+                    $tokenGenerate = JWT::encode($payload, $_ENV['KEY'], 'HS256');
+                    $destroyToken = $this->tokenModel->deleteToken($token);
+                    $registerToken = $this->tokenModel->createToken($userId, $tokenGenerate, (time() + 86400));
+
+                    if ($registerToken == true && $destroyToken == true)
+                    {
+                        return $this->success('User successfully logged in', $tokenGenerate);
+                    }
+                    return $this->error('Error deleting and creating token, log in again',401);
                 }
             }
             return $this->error('Passwords are different',401);

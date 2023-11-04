@@ -55,7 +55,7 @@ class UserModel
     {
         $sql = "UPDATE bd_api_teste_2.tb_user SET
             name_user = :name,
-            lastname_user = :lastname,
+            lastname_user = :lastname
             WHERE id_user = :id";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(':name', $name, PDO::PARAM_STR);

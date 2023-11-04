@@ -9,26 +9,33 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT.
 
 - **Efetuar Registro**
     - *Método*: POST
-    - *Parâmetros da Solicitação*: ['nameUser','lastnameUser','emailUser','passwordUser']
-    - *Exemplo de Solicitação*: POST['/register']
-        body: [
-            {
+    - *Rota*: '/register'
+    - *Parâmetros da Solicitação*: ['nameUser', 'lastnameUser', 'emailUser', 'passwordUser']
+    - *Exemplo de Solicitação*: 
+      ```fetch('localhost:8000/register', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body:{
                 "nameUser": "Daniel",
                 "lastnameUser": "Zanni",
                 "emailUser": "danielzanni07@gmail.com",
                 "passwordUser": "12345678"
-            }
-        ]
+            },
+       });
+      ```
     - *Exemplo de Resposta*:
-        [
+        ```[
             {
                 "error":false,
                 "message":"user successfully registered",
                 "data":null
             }
         ]
+        ```
     - *Tipos de Erros*:
-        (Caso não passe os parametros necessarios)
+        ```(Caso não passe os parametros necessarios)
         [
             {
                 "error": true,
@@ -50,34 +57,40 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT.
                 
             }
         ]
+        ```
 - **Efetuar Login**
     - *Método*: POST
+    - *Rota*: '/login'
     - *Parâmetros da Solicitação*: ['emailUser','passwordUser']
-    - *Exemplo de Solicitação*: POST['/login']
-        body: [
-            {
+    - *Exemplo de Solicitação*: 
+        ```fetch('localhost:8000/login', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body:{
                 "emailUser": "danielzanni07@gmail.com",
                 "passwordUser": "12345678"
             }
-        ]
-    - *Exemplo de Resposta 1*:
-        [
+        });
+      ```
+    - *Exemplo de Respostas*:
+        ```[
             {
                 "error": false,
                 "message": User successfully logged in",
                 "data": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoxLCJleHAiOjE2OTkyMDQ5NjAsImlhdCI6MTY5OTExODU2MH0.aJQrt0ez5W4OmNayMxHbHLj5Ugo9t6_0oruqf5xX3uM"
             }
-        ]
-    - *Exemplo de Resposta 2*:
-        [
+            OU 
             {
                 "error": false,
                 "message": "User logged in successfully, token reused",
                 "data": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoxLCJleHAiOjE2OTkyMDQ5NjAsImlhdCI6MTY5OTExODU2MH0.aJQrt0ez5W4OmNayMxHbHLj5Ugo9t6_0oruqf5xX3uM"
             }
         ]
+        ```
     - Tipos de Erros:
-         (Caso não passe os parametros necessarios)
+         ```(Caso não passe os parametros necessarios)
         [
             {
                 "error": true,
@@ -91,15 +104,145 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT.
                 "message": "Login failed" 
             }
         ]
-    
-- **Para entrar**
+         ```
+- **Para Entrar**
     Lembrando que é necessario salvar o token do login na parte do usuario, para poder reutilizalo quando necessario.
-     *Método*: GET
-    - *Parâmetros da Solicitação*: Nenhum
-    - *Exemplo de Solicitação*: POST['/getuser']
-        Header: [
-            {
+    - *Método*: GET
+    - *Rota*: /getuser
+    - *Parâmetros da Solicitação*: ['Token']
+    - *Exemplo de Solicitação*:
+        ```fetch('localhost:8000/getuser', {
+            method: "GET",
+            headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
+                 Authorization: `Bearer ${token}`,
+            },
+        });
+      ```
+      - *Exemplo de Resposta*: 
+      ```[
+        {
+            "error": false,
+            "message": "Data returned successfully",
+            "data": {
+                "id_user": 1,
+                "name_user": "Daniel",
+                "lastname_user": "Zanni",
+                "email_user": "danielzanni07@gmail.com",
+                "password_user": "12345678"
+            }
+        }
+      ]
+      ```
+      - *Exemplos de Errors*:
+      ```(Caso não passe o token)
+        [
+            {
+                "error": true,
+                "message": "Insufficient values" 
+            }
+        ] 
+      (Caso o token seja invalido ou ocorra algum erro durante a requisição)
+        [
+            {
+                "error": true,
+                "message": "Data return failed" 
             }
         ]
+        ```
+- **Para Deletar a conta**
+    - *Método*: DELETE
+    - *Rota*: /delete
+    - *Parâmetros da Solicitação*: ['Token']
+    - *Exemplo de Solicitação*:
+        ```fetch('localhost:8000/delete', {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                 Authorization: `Bearer ${token}`,
+            },
+        });
+      ```
+      - *Exemplo de Resposta*: 
+      ```[
+        {
+            "error": false,
+            "message": "User successfully destroyed",
+            "data": true
+        }
+      ]
+      ```
+      - *Exemplos de Errors*:
+      ```(Caso não passe o token)
+        [
+            {
+                "error": true,
+                "message": "Insufficient values" 
+            }
+        ] 
+      (Caso o token seja invalido ou ocorra algum erro durante a requisição)
+        [
+            {
+                "error": true,
+                "message": "destruction failed" 
+            }
+        ]
+        ```
+- **Para Atualizar um Usuario**
+    - *Método*: PUT
+    - *Rota*: /update
+    - *Parâmetros da Solicitação*: ['Token','nameUser','lastnameUser','passwordUser']
+    - *Exemplo de Solicitação*:
+        ```fetch('localhost:8000/update', {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                 Authorization: `Bearer ${token}`,
+            },
+            body:{
+                "nameUser": "Daniel",
+                "lastnameUser": "Zanni",
+                "passwordUser": "12345678"
+            },
+        });
+      ```
+    - *Exemplo de Resposta*: 
+    ```[
+        {
+            "error": false,
+            "message": "User successfully logged in",
+            "data": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjozLCJleHAiOjE2OTkyMTg0NDcsImlhdCI6MTY5OTEzMjA0N30._w1Xo0NphWiqPeN60diRcLp-z0k6RyJrbr5RN6j_kMM"
+        }
+    ]
+    ```
+    - *Exemplos de Errors*:
+    ```(Caso não passe o token e os dados nessesarios)
+        [
+            {
+                "error": true,
+                "message": "Insufficient values" 
+            }
+        ] 
+      (Caso as senhas sejam diferentes)
+        [
+            {
+                "error": true,
+                "message": "Passwords are different" 
+            }
+        ]
+      (Caso o token seja invalido ou ocorra algum erro durante a requisição)
+        [
+            {
+                "error": true,
+                "message": "Data return failed" 
+            }
+        ]
+      (Caso ouver erro na hora de criar o token)
+        [
+            {
+                "error": true,
+                "message": "Error deleting and creating token, log in again" 
+            }
+        ]
+    ```
+
