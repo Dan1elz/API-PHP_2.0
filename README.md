@@ -9,13 +9,14 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
  > DOCUMENTAÇÃO PARA O USO
 
     
- - [x] ***EFETUAR REGISTRO***
+ <details>
+<summary>EFETUAR REGISTRO</summary>
         
-    > - **Método**: POST
-    > - **Rota**: '/register'
-    > - **Parâmetros da Solicitação**: ['nameUser', 'lastnameUser', 'emailUser', 'passwordUser']
-    > - **Exemplo de Solicitação**: 
-      ```
+   > - **Método**: POST
+   > - **Rota**: '/register'
+   > - **Parâmetros da Solicitação**: ['nameUser', 'lastnameUser', 'emailUser', 'passwordUser']
+   > - **Exemplo de Solicitação**:
+   ```javascript
       fetch('localhost:8000/register', {
             method: "POST",
             headers: {
@@ -28,9 +29,9 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
                 "passwordUser": "12345678"
             },
        });
-      ```
-    > - **Exemplo de Resposta**:
-      ```
+   ```
+   > - **Exemplo de Resposta**:
+   ```javascript
         [
             {
                 "error":false,
@@ -38,9 +39,9 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
                 "data":null
             }
         ]
-      ```
-    > - **Tipos de Erros**:
-    ```
+   ```
+   > - **Tipos de Erros**:
+   ```javascript
         (Caso não passe os parametros necessarios)
         [
             {
@@ -63,13 +64,17 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
                 
             }
         ]
-    ```
-- [x] ***EFETUAR LOGIN***
-    > - **Método**: POST
-    > - **Rota**: '/login'
-    > - **Parâmetros da Solicitação**: ['emailUser','passwordUser']
-    > - **Exemplo de Solicitação**: 
-    ```
+   ```
+</details>
+<details>
+<summary>EFETUAR LOGIN</summary>
+ 
+ > - **Método**: POST
+ > - **Rota**: '/login'
+ > - **Parâmetros da Solicitação**: ['emailUser','passwordUser']
+ > - **Exemplo de Solicitação**:
+ 
+ ```javascript
         fetch('localhost:8000/login', {
             method: "POST",
             headers: {
@@ -80,9 +85,9 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
                 "passwordUser": "12345678"
             }
         });
-     ```
-    > - **Exemplo de Respostas**:
-    ```
+ ```
+ > - **Exemplo de Respostas**:
+ ```javascript
         [
             {
                 "error": false,
@@ -96,9 +101,9 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
                 "data": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoxLCJleHAiOjE2OTkyMDQ5NjAsImlhdCI6MTY5OTExODU2MH0.aJQrt0ez5W4OmNayMxHbHLj5Ugo9t6_0oruqf5xX3uM"
             }
         ]
-    ```
-    > - **Tipos de Erros**:
-    ```
+ ```
+ > - **Tipos de Erros**:
+ ```javascript
          (Caso não passe os parametros necessarios)
         [
             {
@@ -113,14 +118,16 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
                 "message": "Login failed" 
             }
         ]
-    ```
-- [x] ***PARA ENTRAR***
-    > - Lembrando que é necessario salvar o token do login na parte do usuario, para poder reutilizar quando necessario.
-    > - **Método**: GET
-    > - **Rota**: /getuser
-    > - **Parâmetros da Solicitação**: ['Token']
-    > - **Exemplo de Solicitação**: 
-    ```
+ ```
+</details>
+<details>
+<summary>PARA ENTRAR</summary>
+ > - Lembrando que é necessario salvar o token do login na parte do usuario, para poder reutilizar quando necessario.
+ > - **Método**: GET
+ > - **Rota**: /getuser
+ > - **Parâmetros da Solicitação**: ['Token']
+ > - **Exemplo de Solicitação**: 
+ ```
         fetch('localhost:8000/getuser', {
             method: "GET",
             headers: {
@@ -128,9 +135,9 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
                  Authorization: `Bearer ${token}`,
             },
         });
-    ```
+     ```
     > - **Exemplo de Resposta**: 
-    ```
+```
       [
         {
             "error": false,
