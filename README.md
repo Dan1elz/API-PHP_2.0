@@ -12,7 +12,8 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
     - *Rota*: '/register'
     - *Parâmetros da Solicitação*: ['nameUser', 'lastnameUser', 'emailUser', 'passwordUser']
     - *Exemplo de Solicitação*: 
-      ```fetch('localhost:8000/register', {
+      ```
+      fetch('localhost:8000/register', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -26,7 +27,8 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
        });
       ```
     - *Exemplo de Resposta*:
-        ```[
+        ```
+        [
             {
                 "error":false,
                 "message":"user successfully registered",
@@ -35,7 +37,8 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
         ]
         ```
     - *Tipos de Erros*:
-        ```(Caso não passe os parametros necessarios)
+        ```
+        (Caso não passe os parametros necessarios)
         [
             {
                 "error": true,
@@ -63,7 +66,8 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
     - *Rota*: '/login'
     - *Parâmetros da Solicitação*: ['emailUser','passwordUser']
     - *Exemplo de Solicitação*: 
-        ```fetch('localhost:8000/login', {
+        ```
+        fetch('localhost:8000/login', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -75,7 +79,8 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
         });
       ```
     - *Exemplo de Respostas*:
-        ```[
+        ```
+        [
             {
                 "error": false,
                 "message": User successfully logged in",
@@ -90,7 +95,8 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
         ]
         ```
     - Tipos de Erros:
-         ```(Caso não passe os parametros necessarios)
+         ```
+         (Caso não passe os parametros necessarios)
         [
             {
                 "error": true,
@@ -111,7 +117,8 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
     - *Rota*: /getuser
     - *Parâmetros da Solicitação*: ['Token']
     - *Exemplo de Solicitação*:
-        ```fetch('localhost:8000/getuser', {
+        ```
+        fetch('localhost:8000/getuser', {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -120,7 +127,8 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
         });
       ```
       - *Exemplo de Resposta*: 
-      ```[
+      ```
+      [
         {
             "error": false,
             "message": "Data returned successfully",
@@ -135,7 +143,8 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
       ]
       ```
       - *Exemplos de Errors*:
-      ```(Caso não passe o token)
+      ```
+      (Caso não passe o token)
         [
             {
                 "error": true,
@@ -155,7 +164,8 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
     - *Rota*: /delete
     - *Parâmetros da Solicitação*: ['Token']
     - *Exemplo de Solicitação*:
-        ```fetch('localhost:8000/delete', {
+        ```
+        fetch('localhost:8000/delete', {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -164,7 +174,8 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
         });
       ```
       - *Exemplo de Resposta*: 
-      ```[
+      ```
+      [
         {
             "error": false,
             "message": "User successfully destroyed",
@@ -173,7 +184,8 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
       ]
       ```
       - *Exemplos de Errors*:
-      ```(Caso não passe o token)
+      ```
+      (Caso não passe o token)
         [
             {
                 "error": true,
@@ -193,7 +205,8 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
     - *Rota*: /update
     - *Parâmetros da Solicitação*: ['Token','nameUser','lastnameUser','passwordUser']
     - *Exemplo de Solicitação*:
-        ```fetch('localhost:8000/update', {
+        ```
+        fetch('localhost:8000/update', {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -207,7 +220,8 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
         });
       ```
     - *Exemplo de Resposta*: 
-    ```[
+    ```
+    [
         {
             "error": false,
             "message": "User successfully logged in",
@@ -216,7 +230,8 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
     ]
     ```
     - *Exemplos de Errors*:
-    ```(Caso não passe o token e os dados nessesarios)
+    ```
+    (Caso não passe o token e os dados nessesarios)
         [
             {
                 "error": true,
