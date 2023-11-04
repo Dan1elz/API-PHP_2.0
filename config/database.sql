@@ -11,9 +11,9 @@ CREATE TABLE tb_user(
 );
 
 CREATE TABLE tokens (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     user_id INT,
-    token VARCHAR(255) UNIQUE,
+    token VARCHAR(455) UNIQUE,
     expiration_time TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

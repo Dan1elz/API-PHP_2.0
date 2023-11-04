@@ -6,7 +6,7 @@ class DatabaseConfig
 {
     private $config = [
         'host' => 'localhost',
-        'dbname' => 'db_api_teste',
+        'dbname' => 'bd_api_teste_2',
         'username' => 'root',
         'password' => '',
     ];

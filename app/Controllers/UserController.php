@@ -1,5 +1,13 @@
 <?php 
 namespace App\Controllers;
+
+// require __DIR__ ."/../Models/UserModel.php";
+// require __DIR__ ."/../Models/TokenModel.php";
+
+use Dotenv\Dotenv;
+$dotenv = Dotenv::createImmutable(__DIR__ . '/../../');
+$dotenv->load();
+
 use App\Models\{
     UserModel,
     TokenModel,
@@ -70,12 +78,12 @@ class UserController
             $user =  $response->fetch(PDO::FETCH_ASSOC);
 
             /*===== VERIFICA SE O USUARIO JÁ POSSUI UM TOKEN, CASO EXISTIR, RETORNA ELE AO USUARIO =====*/
-            $veriftUser = $this->tokenModel->veriftUser($user['id']);
+            $veriftUser = $this->tokenModel->veriftUser($user['id_user']);
 
             if($veriftUser->rowCount() == 1)
             {
                 $userToken = $veriftUser->fetch(PDO::FETCH_ASSOC);
-                return $this->success('User sucessfully logged in', $userToken['token']);
+                return $this->success('User logged in successfully, token reused', $userToken['token']);
             }
             /*===== GERA UM NOVO TOKEN E RETORNA AO USUARIO =====*/
             $payload = array(
@@ -84,7 +92,7 @@ class UserController
                 'iat' => time()
             );
             $token = JWT::encode($payload, $_ENV['KEY'], 'HS256');
-            $registerToken = $this->tokenModel->createToken($token, $user['id_user'], time());
+            $registerToken = $this->tokenModel->createToken($user['id_user'], $token, (time() + 86400));
             if ($registerToken == true)
             {
                 return $this->success('User successfully logged in', $token);
@@ -195,19 +203,19 @@ class UserController
     public function success($message, $data)
     {
         /*===== MENSAGEM DE RETORNO DE SUCESSO COM A MENSAGEM E OS DADOS =====*/
-        return json_encode([
+        echo json_encode(array(
             'error' => false,
             'message' => $message,
             'data' => $data,
-        ]);
+        ));
     }
     public function error($message, $statusCode)
     { 
         /*===== MENSAGEM DE RETORNO DE ERRO COM A MENSAGEM DE ERRO =====*/
-        return json_encode([
+        echo json_encode(array(
             'error' => true,
             'message' => $message,
-        ], $statusCode);
+        ), $statusCode);
     }
 }
 ?>

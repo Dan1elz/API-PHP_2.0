@@ -1,5 +1,6 @@
 <?php
 namespace App\Models;
+require __DIR__ ."/../../config/database.php";
 use Config\DatabaseConfig;
 use PDO;
 class UserModel 

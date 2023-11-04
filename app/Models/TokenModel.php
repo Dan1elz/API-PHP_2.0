@@ -1,5 +1,6 @@
 <?php
 namespace App\Models;
+// require __DIR__ ."/../../config/database.php";
 use Config\DatabaseConfig;
 use PDO;
 class TokenModel 
@@ -12,11 +13,13 @@ class TokenModel
     }
     public function createToken($userId, $token, $expirationTime)
     {
+        $expirationTimeFormatted = date('Y-m-d H:i:s', $expirationTime);
+        
         $sql = "INSERT INTO bd_api_teste_2.tokens(user_id, token, expiration_time) VALUES (:userId, :token, :expirationTime)";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(":userId", $userId, PDO::PARAM_INT);
         $stmt->bindParam(":token", $token, PDO::PARAM_STR);
-        $stmt->bindParam(":expirationTime", $expirationTime, PDO::PARAM_STR);
+        $stmt->bindParam(":expirationTime", $expirationTimeFormatted, PDO::PARAM_STR);
 
         return  $stmt->execute() ? true : false;
     }

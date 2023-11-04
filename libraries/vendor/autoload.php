@@ -4,14 +4,4 @@
 
 require_once __DIR__ . '/composer/autoload_real.php';
 
-spl_autoload_register(function (string $nomeCompletoDaClasse)
-{
-    $caminhoArquivo = str_replace('App\Controllers', 'app/Controllers', $nomeCompletoDaClasse);
-    $caminhoArquivo = str_replace('\\', DIRECTORY_SEPARATOR, $caminhoArquivo);
-    $caminhoArquivo .= ".php";
-
-    if(file_exists($caminhoArquivo)){
-        require_once $caminhoArquivo;
-    }
-});
 return ComposerAutoloaderInit412963796e9d0e607d34ee94b49bf879::getLoader();

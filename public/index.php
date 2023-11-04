@@ -1,8 +1,8 @@
-<?php 
+<?php
 namespace Routes;
-set_include_path(get_include_path() . PATH_SEPARATOR . __DIR__ . '/../libraries/composer.phar');
 
 require __DIR__ . '/../libraries/vendor/autoload.php';
+// require __DIR__ .'/../App/Controllers/UserController.php';
 
 use App\Controllers\UserController;
 
@@ -10,8 +10,8 @@ $method = $_SERVER['REQUEST_METHOD'];
 $uri = $_SERVER['REQUEST_URI'];
 $headerAuth = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
 
-$controller = new UserController();
 
+$controller = new UserController();
 switch ($method) {
     case 'POST':
         if ($uri === '/register') {
@@ -26,7 +26,7 @@ switch ($method) {
         break;
     case 'GET':
         if ($uri === '/teste') {
-            $controller->error('Rota GET desconhecida', 200);
+            $controller->success('Foi!', null);
         } elseif ($uri === '/getuser' && strpos($headerAuth, 'Bearer ') === 0) {
             $token = substr($headerAuth, 7);
             $controller->getData($token);
