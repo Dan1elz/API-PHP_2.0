@@ -1,10 +1,9 @@
 # API-PHP_2.0
 <div style="text-align: justify">
-Essa é a segunda versão do meu projeto API-PHP-AJAX. uma Interface de Programação de Aplicações back-end para o gerenciamento de um CRUD utilizando os padroes REST e MVC. Foi criada para o aprofundamento dos meus conhecimentos em MVC (Model-View-Controller) e POO(Orientação a Objetos).
-
-Em meus estudos de C# percebi a necessidade de aprender a fazer uma API se, a utilização do frameword laravel. Pois enfrentei problemas na compreenção dos conceitos de MVC. Espero agora, conseguir migrar para o C# com menores dificuldades.
-
-Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisição deve ser feito em JSON, e a resposta retornara o mesmo. 
+    
+<p>Essa é a segunda versão do meu projeto API-PHP-AJAX. uma Interface de Programação de Aplicações back-end para o gerenciamento de um CRUD utilizando os padroes REST e MVC. Foi criada para o aprofundamento dos meus conhecimentos em MVC (Model-View-Controller) e POO(Orientação a Objetos).</p>
+<p>Em meus estudos de C# percebi a necessidade de aprender a fazer uma API se, a utilização do frameword laravel. Pois enfrentei problemas na compreenção dos conceitos de MVC. Espero agora, conseguir migrar para o C# com menores dificuldades.</p>
+<p>Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisição deve ser feito em JSON, e a resposta retornara o mesmo. </p>
 </div>
 
 #
@@ -18,7 +17,7 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
 > - **Rota**: '/register'
 > - **Parâmetros da Solicitação**: ['nameUser', 'lastnameUser', 'emailUser', 'passwordUser']
 > - **Exemplo de Solicitação**:
-    ```javascript
+  ```javascript
         fetch('localhost:8000/register', {
             method: "POST",
             headers: {
@@ -31,9 +30,9 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
                 "passwordUser": "12345678"
             },
         });
-    ```
+  ```
 > - **Exemplo de Resposta**:
-    ```javascript
+  ```javascript
         [
             {
                 "error":false,
@@ -41,9 +40,9 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
                 "data":null
             }
         ]
-    ```
+  ```
 > - **Tipos de Erros**:
-    ```javascript
+  ```javascript
         //Caso não passe os parametros necessarios
         [
             {
@@ -66,7 +65,7 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
                 
             }
         ]
-    ```
+  ```
 </details>
 <details>
 <summary>EFETUAR LOGIN</summary>
@@ -76,7 +75,7 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
  > - **Parâmetros da Solicitação**: ['emailUser','passwordUser']
  > - **Exemplo de Solicitação**:
  
-    ```javascript
+```javascript
         fetch('localhost:8000/login', {
             method: "POST",
             headers: {
@@ -87,9 +86,9 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
                 "passwordUser": "12345678"
             }
         });
-    ```
+```
 > - **Exemplo de Respostas**:
-    ```javascript
+  ```javascript
         [
             {
                 "error": false,
@@ -103,9 +102,9 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
                 "data": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoxLCJleHAiOjE2OTkyMDQ5NjAsImlhdCI6MTY5OTExODU2MH0.aJQrt0ez5W4OmNayMxHbHLj5Ugo9t6_0oruqf5xX3uM"
             }
         ]
-    ```
+  ```
  > - **Tipos de Erros**:
-    ```javascript
+```javascript
         //Caso não passe os parametros necessarios
         [
             {
@@ -120,7 +119,7 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
                 "message": "Login failed" 
             }
         ]
-    ```
+```
 </details>
 <details>
 <summary>PARA ENTRAR</summary>
@@ -130,7 +129,7 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
 > - **Rota**: /getuser
 > - **Parâmetros da Solicitação**: ['Token']
 > - **Exemplo de Solicitação**: 
-    ```javascript
+  ```javascript
         fetch('localhost:8000/getuser', {
             method: "GET",
             headers: {
@@ -138,9 +137,9 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
                  Authorization: `Bearer ${token}`,
             },
         });
-    ```
+  ```
 > - **Exemplo de Resposta**: 
-    ```javascript
+  ```javascript
       [
         {
             "error": false,
@@ -154,9 +153,9 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
             }
         }
       ]
-    ```
+  ```
 > - **Exemplos de Errors**:
-    ```javascript
+  ```javascript
         //Caso não passe o token
         [
             {
@@ -171,7 +170,7 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
                 "message": "Data return failed" 
             }
         ]
-    ```
+  ```
 </details>
 <details>
 <summary>DELETANDO A CONTA</summary>
@@ -180,7 +179,7 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
 > - **Rota**: /delete
 > - **Parâmetros da Solicitação**: ['Token']
 > - **Exemplo de Solicitação**:
-    ```javascript
+  ```javascript
         fetch('localhost:8000/delete', {
             method: "DELETE",
             headers: {
@@ -188,9 +187,9 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
                  Authorization: `Bearer ${token}`,
             },
         });
-    ```
+  ```
 > - **Exemplo de Resposta**: 
-    ```javascript
+  ```javascript
       [
         {
             "error": false,
@@ -198,9 +197,9 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
             "data": true
         }
       ]
-    ```
+  ```
 > - **Exemplos de Errors**:
-    ```javascript
+  ```javascript
         //Caso não passe o token
         [
             {
@@ -215,7 +214,7 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
                 "message": "destruction failed" 
             }
         ]
-    ```
+  ```
 </details>
 <details>
 <summary>ATUALIZANDO O USUARIO</summary>
@@ -224,7 +223,7 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
 > - **Rota**: /update
 > - **Parâmetros da Solicitação**: ['Token','nameUser','lastnameUser','passwordUser']
 > - **Exemplo de Solicitação**:
-    ```javascript
+  ```javascript
         fetch('localhost:8000/update', {
             method: "PUT",
             headers: {
@@ -237,9 +236,9 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
                 "passwordUser": "12345678"
             },
         });
-    ```
+  ```
 > - **Exemplo de Resposta**: 
-    ```javascript
+  ```javascript
     [
         {
             "error": false,
@@ -247,9 +246,9 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
             "data": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjozLCJleHAiOjE2OTkyMTg0NDcsImlhdCI6MTY5OTEzMjA0N30._w1Xo0NphWiqPeN60diRcLp-z0k6RyJrbr5RN6j_kMM"
         }
     ]
-    ```
+  ```
 > - **Exemplos de Errors**:
-    ```javascript
+  ```javascript
         //Caso não passe o token e os dados nessesarios
         [
             {
@@ -278,5 +277,5 @@ Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisi
                 "message": "Error deleting and creating token, log in again" 
             }
         ]
-    ```
+  ```
 </details>
