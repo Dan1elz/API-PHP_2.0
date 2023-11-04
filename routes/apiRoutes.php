@@ -1,41 +1,54 @@
 <?php
+
 namespace Routes;
 
 use App\Controllers\UserController;
 
-$UserController = new UserController();
+$method = $_SERVER['REQUEST_METHOD'];
+$uri = $_SERVER['REQUEST_URI'];
+$headerAuth = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
 
-$Method = $_SERVER['REQUEST_METHOD'];
-$URL = $_SERVER['REQUEST_URI'];
-$headerAuth = $_SERVER['HTTP_AUTHORIZATION'];
+$controller = new UserController();
 
-if ($Method === 'POST') {
-    if ($URL === '/register') {
-        $data = json_decode(file_get_contents('php://input'), true);
-        $UserController->registerUser($data);
-    } elseif ($URL === '/login') {
-        $data = json_decode(file_get_contents('php://input'), true);
-        $UserController->loginUser($data);
-    } else {
-        // Rota desconhecida
-        http_response_code(404);
-    }
-} elseif ($Method === 'GET') {
-    if ($URL === '/getuser' && strpos($headerAuth, 'Bearer ') === 0) {
-        $token = substr($headerAuth, 7);
-        $UserController->getData($token);
-    } else {
-        // Rota desconhecida
-        http_response_code(404);
-    }
-} elseif ($Method === 'DELETE' && $URL === '/delete' && strpos($headerAuth, 'Bearer ') === 0) {
-    $token = substr($headerAuth, 7);
-    $UserController->destroyUser($token);
-} elseif ($Method === 'PUT' && $URL === '/update' && strpos($headerAuth, 'Bearer ') === 0) {
-    $token = substr($headerAuth, 7);
-    $data = json_decode(file_get_contents('php://input'), true);
-    $UserController->updateUser($token, $data);
-} else {
-    // Rota desconhecida
-    http_response_code(404);
+switch ($method) {
+    case 'POST':
+        if ($uri === '/register') {
+            $data = json_decode(file_get_contents('php://input'), true);
+            $controller->registerUser($data);
+        } elseif ($uri === '/login') {
+            $data = json_decode(file_get_contents('php://input'), true);
+            $controller->loginUser($data);
+        } else {
+            $controller->error('Rota POST desconhecida', 404);
+        }
+        break;
+    case 'GET':
+        if ($uri === '/teste') {
+            $controller->error('Rota GET desconhecida', 200);
+        } elseif ($uri === '/getuser' && strpos($headerAuth, 'Bearer ') === 0) {
+            $token = substr($headerAuth, 7);
+            $controller->getData($token);
+        } else {
+            $controller->error('Rota GET desconhecida', 404);
+        }
+        break;
+    case 'DELETE':
+        if ($uri === '/delete' && strpos($headerAuth, 'Bearer ') === 0) {
+            $token = substr($headerAuth, 7);
+            $controller->destroyUser($token);
+        } else {
+            $controller->error('Rota DELETE desconhecida', 404);
+        }
+        break;
+    case 'PUT':
+        if ($uri === '/update' && strpos($headerAuth, 'Bearer ') === 0) {
+            $token = substr($headerAuth, 7);
+            $data = json_decode(file_get_contents('php://input'), true);
+            $controller->updateUser($token, $data);
+        } else {
+            $controller->error('Rota PUT desconhecida', 404);
+        }
+        break;
+    default:
+        $controller->error('Rota não encontrada', 404);
 }
