@@ -3,7 +3,7 @@ Essa é a segunda versão do meu projeto API-PHP-AJAX. uma Interface de Programa
 
 Em meus estudos de C# percebi a necessidade de aprender a fazer uma API se, a utilização do frameword laravel. Pois enfrentei problemas na compreenção dos conceitos de MVC. Espero agora, conseguir migrar para o C# com menores dificuldades.
 
-Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT.
+Nesse projeto eu utilizei apenas PHP puro e a biblioteca JWT. O envio da requisição deve ser feito em JSON, e a resposta retornara o mesmo. 
 
 ### DOCUMENTAÇÃO PARA O USO
 
